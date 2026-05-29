@@ -1,80 +1,52 @@
 public class Probabilidad {
 
-    private int[] estudia;
-    private int[] aprueba;
+    private int[][] datos;
     private int total;
 
-    public Probabilidad(int[] estudia, int[] aprueba) {
-
-        this.estudia = estudia;
-        this.aprueba = aprueba;
-        total = estudia.length;
+    public Probabilidad(int[][] datos, int total) {
+        this.datos = datos;
+        this.total = total;
     }
 
-    public void mostrarDatos() {
+    public void calcularMarginal() {
 
-        System.out.println("Alumno\tEstudia\tAprueba");
-        System.out.println("------------------------------------");
+        System.out.println("PROBABILIDAD MARGINAL");
 
-        for (int i = 0; i < total; i++) {
+        double pA = (double)(datos[0][0] + datos[1][0]) / total;
+        double pAprima = (double)(datos[0][1] + datos[1][1]) / total;
 
-            System.out.println(
-                (i + 1) + "\t" +
-                estudia[i] + "\t\t" +
-                aprueba[i]
-            );
-        }
+        double pB = (double)(datos[0][0] + datos[0][1]) / total;
+        double pBprima = (double)(datos[1][0] + datos[1][1]) / total;
+
+        System.out.println("P(A) = " + pA);
+        System.out.println("P(A') = " + pAprima);
+        System.out.println("P(B) = " + pB);
+        System.out.println("P(B') = " + pBprima);
     }
 
-    public double probabilidadMarginal() {
+    public void calcularConjunta() {
 
-        int contador = 0;
+        System.out.println("\nPROBABILIDAD CONJUNTA");
 
-        for (int i = 0; i < total; i++) {
+        double pAyB = (double) datos[0][0] / total;
+        double pAprimaYB = (double) datos[0][1] / total;
+        double pAyBprima = (double) datos[1][0] / total;
+        double pAprimaYBprima = (double) datos[1][1] / total;
 
-            if (estudia[i] == 1) {
-
-                contador++;
-            }
-        }
-
-        return (double) contador / total;
+        System.out.println("P(A ∩ B) = " + pAyB);
+        System.out.println("P(A' ∩ B) = " + pAprimaYB);
+        System.out.println("P(A ∩ B') = " + pAyBprima);
+        System.out.println("P(A' ∩ B') = " + pAprimaYBprima);
     }
 
-    public double probabilidadConjunta() {
+    public void calcularCondicional() {
 
-        int contador = 0;
+        System.out.println("\nPROBABILIDAD CONDICIONAL");
 
-        for (int i = 0; i < total; i++) {
+        double pBgivenA = (double) datos[0][0] / (datos[0][0] + datos[1][0]);
+        double pAgivenB = (double) datos[0][0] / (datos[0][0] + datos[0][1]);
 
-            if (estudia[i] == 1 &&
-                aprueba[i] == 1) {
-
-                contador++;
-            }
-        }
-
-        return (double) contador / total;
-    }
-
-    public double probabilidadCondicional() {
-
-        int estudian = 0;
-        int estudianYAprueban = 0;
-
-        for (int i = 0; i < total; i++) {
-
-            if (estudia[i] == 1) {
-
-                estudian++;
-
-                if (aprueba[i] == 1) {
-
-                    estudianYAprueban++;
-                }
-            }
-        }
-
-        return (double) estudianYAprueban / estudian;
+        System.out.println("P(B|A) = " + pBgivenA);
+        System.out.println("P(A|B) = " + pAgivenB);
     }
 }
